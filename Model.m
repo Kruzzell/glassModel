@@ -11,9 +11,14 @@ endTime = 1; %s
 
 %%% -----------------------------------------------------------------------
 
-timeNo = timeStep * (endTime+1);
+timeNo = endTime/timeStep;
 
-molecule = zeros(particleNo,timeNo);
+%molecule = zeros(particleNo,timeNo);
+% for i=1:timeNo
+%     for j=1:particleNo
+%         molecule(j,i)=vector;
+%     end
+% end
 
 % initialisation of variables
 for i=1:1:particleNo
@@ -28,7 +33,8 @@ for i=1:1:particleNo
     % random orientiation between 0 and 2pi
     orientation = rand * 2 * pi;
     
-    molecule(i,0) = vector(x,y,xPrev,yPrev,velocityX,velocityY,orientation);
+    molecule = vector(x,y,xPrev,yPrev,velocityX,velocityY,orientation);
+    moleculeArray(i,1) = molecule;
 end
 
 for k = 1:timeStep:endTime
