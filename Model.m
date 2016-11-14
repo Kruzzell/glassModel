@@ -24,20 +24,27 @@ timeNo = endTime/timeStep;
 for i=1:1:particleNo
     % random distribution of coordinates across box
     x = rand * boxSide;
-    xPrev = rand * boxSide;
     y = rand * boxSide;
-    yPrev = rand * boxSide;
     % random distribution of velocities up to vMax
     velocityX = rand * vMax;
     velocityY = rand * vMax;
     % random orientiation between 0 and 2pi
     orientation = rand * 2 * pi;
     
-    molecule = vector(x,y,xPrev,yPrev,velocityX,velocityY,orientation);
-    moleculeArray(i,1) = molecule;
-end
+    molecule(i) = vector(x,y,velocityX,velocityY,orientation);
 
-for k = 1:timeStep:endTime
-   molecule(:,k) = nextTimeStep(molecule(:,k-1),particleSize,boxSide,timeStep);
 end
+% array to store (x,y) for each molecule
+moleculeArray = zeros(particleNo,2);
 
+for i=1:timeNo
+    % calculate pos and vel at the next time step
+   nextTimeStep(molecule,boxSide, particleDiameter, timeStep);
+   for j=1:particleNo
+       % fill array of positions
+      moleculeArray(j,1) = molecule(j).x;
+      moleculeArray(j,2) = molecule(j).y;
+   end
+   % plot a graph of the time step
+scatter( moleculeArray(:,1) , moleculeArray(:,2));
+end
